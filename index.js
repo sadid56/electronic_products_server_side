@@ -43,12 +43,30 @@ async function run() {
         const result = await productCollection.find().toArray()
         res.send(result)
     })
+
+    //! get signle data
+    app.get('/products/:id', async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await productCollection.findOne(query)
+      res.send(result)
+
+    })
+  //   app.get('/coffee/:id', async (req, res) => {
+  //     const id = req.params.id;
+  //     const query = { _id: new ObjectId(id) }
+  //     const result = await coffeeCollection.findOne(query);
+  //     res.send(result);
+  // })
+
+
     //! update
     app.put('/products/:id', async(req, res)=>{
-      const id = req.body;
+      const id = req.params.id;
       const filter = {_id: new ObjectId(id)};
       const options = {upsert: true}
-      const updateProducts = {
+      const updateProducts = req.body;
+      const Products = {
         $set: {
           image:updateProducts.image,
           name:updateProducts.name,
@@ -58,7 +76,7 @@ async function run() {
           rating:updateProducts.rating
         }
       }
-      const result = await productCollection.updateOne(filter, updateProducts, options)
+      const result = await productCollection.updateOne(filter, Products, options)
       res.send(result)
 
     })
