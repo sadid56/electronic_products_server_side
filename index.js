@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000;
 
@@ -42,6 +42,25 @@ async function run() {
     app.get('/products', async(req, res)=>{
         const result = await productCollection.find().toArray()
         res.send(result)
+    })
+    //! update
+    app.put('/products/:id', async(req, res)=>{
+      const id = req.body;
+      const filter = {_id: new ObjectId(id)};
+      const options = {upsert: true}
+      const updateProducts = {
+        $set: {
+          image:updateProducts.image,
+          name:updateProducts.name,
+          brandName:updateProducts.brandName,
+          categorieName:updateProducts.categorieName,
+          price:updateProducts.price,
+          rating:updateProducts.rating
+        }
+      }
+      const result = await productCollection.updateOne(filter, updateProducts, options)
+      res.send(result)
+
     })
 
 
