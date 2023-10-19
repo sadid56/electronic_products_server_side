@@ -31,6 +31,8 @@ async function run() {
     await client.connect();
     
     const productCollection = client.db('assignment-10').collection('products');
+    const AddCartCollection = client.db('assignment-10').collection('myCart')
+
     //! POST
     app.post('/products', async(req, res)=>{
         const product = req.body;
@@ -52,12 +54,6 @@ async function run() {
       res.send(result)
 
     })
-  //   app.get('/coffee/:id', async (req, res) => {
-  //     const id = req.params.id;
-  //     const query = { _id: new ObjectId(id) }
-  //     const result = await coffeeCollection.findOne(query);
-  //     res.send(result);
-  // })
 
 
     //! update
@@ -80,6 +76,19 @@ async function run() {
       res.send(result)
 
     })
+
+
+      //! my cart related collection 
+      app.get('/myCart', async(req, res)=>{
+        const result = await AddCartCollection.find().toArray()
+        res.send(result)
+      });
+      
+      app.post('/myCart', async(req, res)=>{
+        const myCart = req.body;
+        const result = await AddCartCollection.insertOne(myCart)
+        res.send(result)
+      })
 
 
 
