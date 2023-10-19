@@ -83,10 +83,17 @@ async function run() {
         const result = await AddCartCollection.find().toArray()
         res.send(result)
       });
-      
+
       app.post('/myCart', async(req, res)=>{
         const myCart = req.body;
         const result = await AddCartCollection.insertOne(myCart)
+        res.send(result)
+      })
+
+      app.delete('/myCart/:id', async(req, res)=>{
+        const id = req.params.id;
+        const query = {_id: id}
+        const result = await AddCartCollection.deleteOne(query)
         res.send(result)
       })
 
