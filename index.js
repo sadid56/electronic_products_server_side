@@ -10,11 +10,11 @@ app.use(express.json())
 
 
 //! CRUD operation
-//WcptlQVUQMp1fxKA
-//assignment-10
+//
+//
 
 
-const uri = "mongodb+srv://assignment-10:WcptlQVUQMp1fxKA@cluster0.dzbhwpo.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.PRODUCTS_USERS}:${process.env.PRODUCTS_PASS}@cluster0.dzbhwpo.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
